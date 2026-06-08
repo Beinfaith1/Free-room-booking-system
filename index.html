@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassRoomPro - Free University Classroom Booking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .testimonial-container {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                <i class="fas fa-chalkboard-teacher text-indigo-600 text-3xl mr-2"></i>
+                <h1 class="text-2xl font-bold text-indigo-600">ClassRoomPro</h1>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="hover:text-indigo-600 transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-indigo-600 transition-colors">How It Works</a>
+                <a href="#testimonials" class="hover:text-indigo-600 transition-colors">Testimonials</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="signup.html" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-colors">Get Started</a>
+                <a href="login.html" class="ml-2 text-indigo-600 px-6 py-2 rounded-full border border-indigo-600 hover:bg-indigo-50 transition-colors">Login</a>
+                </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-500 hover:text-indigo-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-md">
+            <nav class="flex flex-col space-y-3">
+                <a href="#features" class="hover:text-indigo-600 transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-indigo-600 transition-colors">How It Works</a>
+                <a href="#testimonials" class="hover:text-indigo-600 transition-colors">Testimonials</a>
+                <a href="signup.html" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-colors text-center">Get Started</a>
+                <a href="login.html" class="text-indigo-600 px-6 py-2 rounded-full border border-indigo-600 hover:bg-indigo-50 transition-colors text-center">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-36">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Book University Classrooms With Ease</h2>
+                <p class="text-xl mb-8">A free, all-in-one solution for students and staff to reserve, manage, and track classroom bookings in real time.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="signup.html" class="bg-white text-indigo-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors text-center">Get Started</a>
+                    <a href="login.html" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-indigo-600 transition-colors text-center">Login</a>
+                </div>
+                                </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="img/dashboard.png" alt="ClassRoomPro Dashboard" class="rounded-lg shadow-2xl animate-float max-w-full h-auto">
+                                </div>
+                            </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="text-4xl font-bold text-indigo-600 mb-2 counter" data-target="500">0</div>
+                    <p class="text-gray-600">Classrooms</p>
+                        </div>
+                <div class="p-6 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="text-4xl font-bold text-indigo-600 mb-2 counter" data-target="2000">0</div>
+                    <p class="text-gray-600">Active Users</p>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-lg shadow-sm">
+                    <div class="text-4xl font-bold text-indigo-600 mb-2 counter" data-target="10000">0</div>
+                    <p class="text-gray-600">Bookings Made</p>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Why Use ClassRoomPro?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    <h3 class="text-xl font-bold mb-2">Easy Booking</h3>
+                    <p class="text-gray-600">Reserve classrooms in seconds with a simple, intuitive interface. No paperwork, no hassle.</p>
+                        </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Real-Time Availability</h3>
+                    <p class="text-gray-600">See which rooms are available instantly and avoid double bookings or scheduling conflicts.</p>
+                        </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                        </div>
+                    <h3 class="text-xl font-bold mb-2">Usage Analytics</h3>
+                    <p class="text-gray-600">Track classroom usage and booking trends to optimize campus resources.</p>
+                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                        <i class="fas fa-users"></i>
+                        </div>
+                    <h3 class="text-xl font-bold mb-2">Group & Individual Booking</h3>
+                    <p class="text-gray-600">Book for yourself or reserve rooms for group study, meetings, or events.</p>
+                        </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    <h3 class="text-xl font-bold mb-2">Period-Based Scheduling</h3>
+                    <p class="text-gray-600">Book by period or time slot, making it easy to plan your day and avoid overlaps.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow feature-card">
+                    <div class="text-indigo-600 text-4xl mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Mobile Friendly</h3>
+                    <p class="text-gray-600">Access the system from any device, anywhere on campus or off.</p>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md text-center md:w-1/4">
+                    <div class="bg-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                    <h3 class="text-xl font-bold mb-2">Sign Up</h3>
+                    <p class="text-gray-600">Create your free account in less than a minute.</p>
+                </div>
+                <div class="hidden md:block text-indigo-600 text-4xl">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md text-center md:w-1/4">
+                    <div class="bg-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                    <h3 class="text-xl font-bold mb-2">Browse Classrooms</h3>
+                    <p class="text-gray-600">See available rooms and filter by date, period, or capacity.</p>
+                </div>
+                <div class="hidden md:block text-indigo-600 text-4xl">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md text-center md:w-1/4">
+                    <div class="bg-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                    <h3 class="text-xl font-bold mb-2">Book & Manage</h3>
+                    <p class="text-gray-600">Reserve your room, view your bookings, and manage or cancel as needed.</p>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">What Students & Staff Say</h2>
+            <div class="relative">
+                <div class="testimonial-container flex overflow-x-auto snap-x snap-mandatory scrollbar-hide space-x-6 pb-6">
+                    <div class="snap-center shrink-0 w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                            <img src="/img/photo_2025-05-19_00-49-58.jpg" alt="Student" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold">Hitler</h4>
+                                <p class="text-gray-600 text-sm">N4 Student</p>
+                        </div>
+                    </div>
+                        <p class="text-gray-700">"ClassRoomPro made it so easy to find and book available classrooms for group study. No more running around campus!"</p>
+                        <div class="text-yellow-400 mt-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="snap-center shrink-0 w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <img src="" alt="Staff" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold">Rasheed</h4>
+                                <p class="text-gray-600 text-sm">N4 Rep</p>
+                </div>
+            </div>
+                        <p class="text-gray-700">"The real-time updates and analytics help us optimize classroom usage across the university. Highly recommended!"</p>
+                        <div class="text-yellow-400 mt-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+        </div>
+    </div>
+                    <div class="snap-center shrink-0 w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <img src="" alt="Student" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold">Dr. Worku</h4>
+                                <p class="text-gray-600 text-sm">Head of Cs Department</p>
+                    </div>
+                </div>
+                        <p class="text-gray-700">"I love how mobile-friendly the system is. I can book a room from my phone between classes!"</p>
+                        <div class="text-yellow-400 mt-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+            </div>
+        </div>
+    </div>
+                <div class="flex justify-center mt-6 space-x-2">
+                    <button id="prev-testimonial" class="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-testimonial" class="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="get-started" class="py-16 bg-indigo-600 text-white mb-10 mt-10" >
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Book Your Next Classroom?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of students and staff already using ClassRoomPro to simplify campus life.</p>
+            <a href="signup.html" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors">Create Your Free Account</a>
+            <p class="text-indigo-100 text-sm mt-4">By signing up, you agree to our Terms of Service and Privacy Policy.</p>
+        </div>
+    </section>
+
+    <!-- Meet the Devs Section -->
+    <section id="meet-the-devs" class="py-16 bg-white mb-24 mt-24">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Meet the Devs</h2>
+        <div class="relative">
+          <button id="devs-prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow hover:bg-indigo-700 transition-colors">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div id="devs-carousel" class="flex overflow-x-auto space-x-6 pb-4 snap-x snap-mandatory scroll-smooth" style="scrollbar-width: none;">
+            <!-- Dev Card 1 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-paint-brush text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Alex Kim</h3>
+              <p class="text-indigo-600 font-semibold">UI/UX Designer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Crafts beautiful, intuitive interfaces.</p>
+            </div>
+            <!-- Dev Card 2 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-palette text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Priya Singh</h3>
+              <p class="text-indigo-600 font-semibold">UI/UX Designer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Focuses on user experience and flow.</p>
+            </div>
+            <!-- Dev Card 3 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-code text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Maria Lopez</h3>
+              <p class="text-indigo-600 font-semibold">Frontend Developer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Builds responsive, interactive UIs.</p>
+            </div>
+            <!-- Dev Card 4 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-laptop-code text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">John Doe</h3>
+              <p class="text-indigo-600 font-semibold">Frontend Developer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Ensures smooth user interactions.</p>
+            </div>
+            <!-- Dev Card 5 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-server text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Chen Wei</h3>
+              <p class="text-indigo-600 font-semibold">Backend Developer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">APIs and server logic expert.</p>
+            </div>
+            <!-- Dev Card 6 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-cogs text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Fatima Al-Sayed</h3>
+              <p class="text-indigo-600 font-semibold">Backend Developer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Handles integrations and security.</p>
+            </div>
+            <!-- Dev Card 7 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-code-branch text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Liam Smith</h3>
+              <p class="text-indigo-600 font-semibold">Backend Developer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Optimizes performance and reliability.</p>
+            </div>
+            <!-- Dev Card 8 -->
+            <div class="snap-center shrink-0 w-72 bg-gray-50 rounded-lg p-6 flex flex-col items-center shadow">
+              <i class="fas fa-database text-indigo-600 text-4xl mb-4"></i>
+              <h3 class="text-lg font-bold text-gray-900">Sara Müller</h3>
+              <p class="text-indigo-600 font-semibold">Database Engineer</p>
+              <p class="text-gray-500 text-sm mt-2 text-center">Designs and manages all data.</p>
+            </div>
+          </div>
+          <button id="devs-next" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow hover:bg-indigo-700 transition-colors">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chalkboard-teacher text-indigo-400 text-3xl mr-2"></i>
+                        <h3 class="text-2xl font-bold">ClassRoomPro</h3>
+            </div>
+                    <p class="text-gray-400">Making classroom booking simple, efficient, and free for universities everywhere.</p>
+            </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors">How It Works</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Testimonials</a></li>
+                        <li><a href="login.html" class="text-gray-400 hover:text-white transition-colors">Login</a></li>
+                        <li><a href="signup.html" class="text-gray-400 hover:text-white transition-colors">Sign Up</a></li>
+                    </ul>
+        </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Video Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Community</a></li>
+                    </ul>
+    </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin-in text-xl"></i></a>
+                </div>
+                    <p class="text-gray-400">Email: info@classroompro.com</p>
+                    </div>
+                </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ClassRoomPro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Testimonial Slider
+        const testimonialContainer = document.querySelector('.testimonial-container');
+        const prevButton = document.getElementById('prev-testimonial');
+        const nextButton = document.getElementById('next-testimonial');
+        const testimonials = document.querySelectorAll('.testimonial-container > div');
+        let currentIndex = 0;
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = Math.max(currentIndex - 1, 0);
+            scrollToTestimonial(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = Math.min(currentIndex + 1, testimonials.length - 1);
+            scrollToTestimonial(currentIndex);
+        });
+
+        function scrollToTestimonial(index) {
+            testimonials[index].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+        }
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the faster
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            });
+        };
+
+        // Feature Card Animation
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('scale-105', 'bg-indigo-50');
+                card.style.transition = 'all 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('scale-105', 'bg-indigo-50');
+            });
+        });
+
+        // Intersection Observer for Counter Animation
+        const statsSection = document.querySelector('.counter').parentElement.parentElement.parentElement;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(statsSection);
+
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                // Only prevent default for in-page anchors
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+        });
+
+        function checkAdminAuth() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.isAdmin) {
+                window.location.href = 'login.html';
+            }
+            document.getElementById('adminName').textContent = `Welcome, ${user.name}`;
+        }
+
+        // Carousel logic for Meet the Devs
+        const devsCarousel = document.getElementById('devs-carousel');
+        const devsPrev = document.getElementById('devs-prev');
+        const devsNext = document.getElementById('devs-next');
+        let devCardWidth = 0;
+
+        function updateDevCardWidth() {
+            const firstCard = devsCarousel.querySelector('div');
+            devCardWidth = firstCard ? firstCard.offsetWidth + 24 : 300; // 24px for gap
+        }
+        updateDevCardWidth();
+        window.addEventListener('resize', updateDevCardWidth);
+
+        devsPrev.addEventListener('click', () => {
+            devsCarousel.scrollBy({ left: -devCardWidth * 2, behavior: 'smooth' });
+        });
+        devsNext.addEventListener('click', () => {
+            devsCarousel.scrollBy({ left: devCardWidth * 2, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

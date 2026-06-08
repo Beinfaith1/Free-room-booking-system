@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ClassRoomPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-chalkboard-teacher text-2xl text-indigo-600"></i>
+                    <span class="ml-2 text-2xl font-bold text-indigo-600">ClassRoomPro Admin</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="adminName" class="text-gray-600"></span>
+                    <button onclick="logout()" class="text-gray-600 hover:text-indigo-600">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-door-open text-3xl text-indigo-600"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Classrooms</dt>
+                                <dd id="totalClassrooms" class="text-lg font-medium text-gray-900">Loading...</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-calendar-check text-3xl text-indigo-600"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Active Bookings</dt>
+                                <dd id="activeBookings" class="text-lg font-medium text-gray-900">Loading...</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-users text-3xl text-indigo-600"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Users</dt>
+                                <dd id="totalUsers" class="text-lg font-medium text-gray-900">Loading...</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings Management -->
+        <div class="mt-8">
+            <div class="bg-white shadow rounded-lg">
+                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Manage Bookings</h3>
+                    <div class="flex space-x-4">
+                        <input type="date" id="filterDate" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="filterStatus" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Classroom</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Period</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Bookings will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is admin
+        function checkAdminAuth() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.isAdmin) {
+                window.location.href = 'login.html';
+            }
+            document.getElementById('adminName').textContent = `Welcome, ${user.name}`;
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('api/admin.php?action=getStats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('totalClassrooms').textContent = data.stats.totalClassrooms;
+                    document.getElementById('activeBookings').textContent = data.stats.activeBookings;
+                    document.getElementById('totalUsers').textContent = data.stats.totalUsers;
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // Load bookings
+        async function loadBookings() {
+            try {
+                const date = document.getElementById('filterDate').value;
+                const status = document.getElementById('filterStatus').value;
+                
+                const response = await fetch(`api/admin.php?action=getBookings&date=${date}&status=${status}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('bookingsTableBody');
+                    tbody.innerHTML = '';
+                    
+                    data.bookings.forEach(booking => {
+                        const row = `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${booking.id}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${booking.user_name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${booking.classroom_name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${booking.date}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${booking.period}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                        ${booking.status}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    ${booking.status === 'active' ? `
+                                        <button onclick="cancelBooking(${booking.id})" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    ` : ''}
+                                </td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += row;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+
+        // Cancel booking
+        async function cancelBooking(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('api/admin.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'cancelBooking',
+                        bookingId: bookingId
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Booking cancelled successfully');
+                    loadBookings();
+                    loadDashboardData();
+                } else {
+                    alert(data.message || 'Failed to cancel booking');
+                }
+            } catch (error) {
+                console.error('Error cancelling booking:', error);
+                alert('An error occurred while cancelling the booking');
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Event listeners
+        document.getElementById('filterDate').addEventListener('change', loadBookings);
+        document.getElementById('filterStatus').addEventListener('change', loadBookings);
+
+        // Initialize
+        checkAdminAuth();
+        loadDashboardData();
+        loadBookings();
+    </script>
+</body>
+</html> 

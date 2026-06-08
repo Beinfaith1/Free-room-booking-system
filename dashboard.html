@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ClassRoomPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="bg-indigo-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+            <div class="flex items-center space-x-2 px-4">
+                <i class="fas fa-chalkboard-teacher text-2xl"></i>
+                <span class="text-2xl font-extrabold">ClassRoomPro</span>
+            </div>
+
+            <nav>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white" data-page="available-rooms">
+                    <i class="fas fa-door-open mr-2"></i>Available Classrooms
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white" data-page="my-bookings">
+                    <i class="fas fa-calendar-check mr-2"></i>My Bookings
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white" id="logout">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center">
+                            <h1 class="text-2xl font-semibold text-gray-900">Welcome, <span id="userName">User</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <!-- Available Classrooms Section -->
+                <section id="available-rooms" class="page active">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <div class="mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Available Classrooms</h2>
+                            <div class="flex items-center space-x-4">
+                                <label for="booking-date" class="text-sm font-medium text-gray-700">Select Date:</label>
+                                <input type="date" id="booking-date" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        <div id="classrooms-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Classrooms will be dynamically added here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- My Bookings Section -->
+                <section id="my-bookings" class="page hidden">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">My Bookings</h2>
+                        <div id="bookings-list" class="space-y-4">
+                            <!-- Bookings will be dynamically added here -->
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Check if user is logged in
+        const user = window.api.getUserSession();
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userName').textContent = user.name;
+        }
+
+        // Navigation
+        document.querySelectorAll('nav a[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = e.target.closest('a').dataset.page;
+                
+                // Update active states
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('bg-indigo-700'));
+                e.target.closest('a').classList.add('bg-indigo-700');
+                
+                // Show target page
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.add('hidden');
+                    if (page.id === targetPage) {
+                        page.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.api.clearUserSession();
+            window.location.href = 'login.html';
+        });
+
+        // Date picker
+        const datePicker = document.getElementById('booking-date');
+        datePicker.min = new Date().toISOString().split('T')[0];
+        datePicker.value = new Date().toISOString().split('T')[0];
+
+        // Display classrooms
+        async function displayClassrooms(date) {
+            const classroomsList = document.getElementById('classrooms-list');
+            try {
+                const classrooms = await window.api.getAvailableClassrooms(date);
+                classroomsList.innerHTML = classrooms.map(classroom => `
+                    <div class="bg-white border rounded-lg p-4 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900">${classroom.name}</h3>
+                        <p class="text-sm text-gray-500 mb-4">Capacity: ${classroom.capacity} students</p>
+                        <div class="grid grid-cols-4 gap-2">
+                            ${Array.from({length: 8}, (_, i) => {
+                                const period = i + 1;
+                                const isBooked = classroom.booked_periods.includes(period.toString());
+                                return `
+                                    <button 
+                                        class="period-btn ${isBooked ? 'bg-red-500' : 'bg-green-500'} text-white py-2 rounded-md text-sm"
+                                        ${isBooked ? 'disabled' : ''}
+                                        data-room="${classroom.id}"
+                                        data-period="${period}">
+                                        Period ${period}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add event listeners to period buttons
+                document.querySelectorAll('.period-btn:not([disabled])').forEach(btn => {
+                    btn.addEventListener('click', handleBooking);
+                });
+            } catch (error) {
+                console.error('Error fetching classrooms:', error);
+            }
+        }
+
+        // Display bookings
+        async function displayBookings() {
+            const bookingsList = document.getElementById('bookings-list');
+            try {
+                const bookings = await window.api.getUserBookings(user.id);
+                if (bookings.length === 0) {
+                    bookingsList.innerHTML = '<p class="text-gray-500 text-center">No bookings found</p>';
+                    return;
+                }
+                bookingsList.innerHTML = bookings.map(booking => `
+                    <div class="bg-white border rounded-lg p-4 shadow-sm flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${booking.classroom_name}</h3>
+                            <p class="text-sm text-gray-500">Date: ${booking.booking_date}</p>
+                            <p class="text-sm text-gray-500">Period: ${booking.period}</p>
+                        </div>
+                        <button 
+                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                            data-booking-id="${booking.id}">
+                            Cancel
+                        </button>
+                    </div>
+                `).join('');
+
+                // Add event listeners to cancel buttons
+                document.querySelectorAll('[data-booking-id]').forEach(btn => {
+                    btn.addEventListener('click', handleCancel);
+                });
+            } catch (error) {
+                console.error('Error fetching bookings:', error);
+            }
+        }
+
+        // Handle booking
+        async function handleBooking(e) {
+            const roomId = e.target.dataset.room;
+            const period = e.target.dataset.period;
+            const date = datePicker.value;
+
+            try {
+                const response = await window.api.createBooking(user.id, roomId, date, period);
+                if (response.message === 'Booking created successfully') {
+                    displayClassrooms(date);
+                    displayBookings();
+                } else {
+                    alert(response.message || 'Failed to create booking');
+                }
+            } catch (error) {
+                console.error('Error creating booking:', error);
+                alert('Failed to create booking');
+            }
+        }
+
+        // Handle cancellation
+        async function handleCancel(e) {
+            const bookingId = e.target.dataset.bookingId;
+            try {
+                const response = await window.api.deleteBooking(bookingId);
+                if (response.message === 'Booking deleted successfully') {
+                    displayClassrooms(datePicker.value);
+                    displayBookings();
+                } else {
+                    alert(response.message || 'Failed to cancel booking');
+                }
+            } catch (error) {
+                console.error('Error cancelling booking:', error);
+                alert('Failed to cancel booking');
+            }
+        }
+
+        // Initial display
+        displayClassrooms(datePicker.value);
+        displayBookings();
+
+        // Update classrooms when date changes
+        datePicker.addEventListener('change', (e) => {
+            displayClassrooms(e.target.value);
+        });
+    </script>
+</body>
+</html>
