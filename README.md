@@ -1,4 +1,4 @@
-# Free Room Management System
+# Free Class Room Management System
 
 A full-stack web application that allows university students and staff to browse, reserve, and manage classroom bookings in real time. Built as a group project at Unity University.
 
